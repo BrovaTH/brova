@@ -2,7 +2,7 @@ import { NextResponse, type NextRequest } from "next/server";
 import { createServerClient, type CookieOptions } from "@supabase/ssr";
 
 /** หน้าที่เปิดได้โดยไม่ต้องล็อกอิน */
-const PUBLIC = ["/login", "/track", "/auth", "/_next", "/favicon", "/brova"];
+const PUBLIC = ["/login", "/track", "/auth","/api",  "/_next", "/favicon", "/brova"];
 
 function isPublic(path: string) {
   return PUBLIC.some((p) => path === p || path.startsWith(p + "/") || path.startsWith(p));
