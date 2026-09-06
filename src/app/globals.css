@@ -1,0 +1,111 @@
+@import "@fontsource/kanit/300.css";
+@import "@fontsource/kanit/400.css";
+@import "@fontsource/kanit/500.css";
+@import "@fontsource/kanit/600.css";
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --ink: #111111;
+    --bone: #f5f4f2;
+    --line: #dedbd6;
+  }
+
+  html {
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    @apply bg-bone text-ink antialiased;
+    font-family: Kanit, "Noto Sans Thai", system-ui, sans-serif;
+    font-weight: 300;
+  }
+
+  /* ไม่เอามุมโค้งทั้งระบบ ให้หน้าตาเป็นแบบสิ่งพิมพ์ */
+  * {
+    border-radius: 0 !important;
+  }
+
+  ::selection {
+    background: var(--ink);
+    color: var(--bone);
+  }
+
+  /* ตัวเลขให้กว้างเท่ากันทุกตัว ตารางเงินจะได้ไม่ขยับ */
+  .tnum {
+    font-variant-numeric: tabular-nums;
+  }
+
+  input,
+  select,
+  textarea,
+  button {
+    font-family: inherit;
+    font-weight: inherit;
+  }
+
+  input[type="number"]::-webkit-outer-spin-button,
+  input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+}
+
+@layer components {
+  .field {
+    @apply w-full border border-line bg-white px-3 py-2 text-[13px] outline-none
+           focus:border-ink transition-colors;
+  }
+
+  .label {
+    @apply block text-[11px] uppercase tracking-wide2 text-ink/45 mb-1;
+  }
+
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 border px-4 py-2
+           text-[12px] tracking-wide2 uppercase transition-colors
+           disabled:opacity-40 disabled:cursor-not-allowed;
+  }
+
+  .btn-solid {
+    @apply btn border-ink bg-ink text-bone hover:bg-ink/85;
+  }
+
+  .btn-ghost {
+    @apply btn border-line bg-white text-ink hover:border-ink;
+  }
+
+  .btn-danger {
+    @apply btn border-signal bg-white text-signal hover:bg-signal hover:text-white;
+  }
+
+  .card {
+    @apply border border-line bg-white;
+  }
+
+  .rule {
+    @apply border-t border-line;
+  }
+}
+
+/* ---------------------------------------------------------------- งานพิมพ์ */
+@media print {
+  .no-print {
+    display: none !important;
+  }
+  body {
+    background: #fff;
+  }
+  .a4 {
+    box-shadow: none !important;
+    margin: 0 !important;
+  }
+}
+
+@page {
+  size: A4;
+  margin: 0;
+}
