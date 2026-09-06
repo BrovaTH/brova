@@ -1,6 +1,7 @@
 "use client";
 
 import { useMemo, useState, useTransition } from "react";
+import { useRouter } from "next/navigation";
 import { DocPaper, type CompanyInfo } from "./doc-paper";
 import { A4Frame } from "./a4-sheet";
 import { Modal } from "./modal";
@@ -31,6 +32,7 @@ export function DocEditor({
   onSave: (payload: string) => Promise<SaveResult>;
   onIssue?: (payload: string) => Promise<SaveResult>;
 }) {
+  const router = useRouter();
   const [doc, setDoc] = useState<DocModel>(initial);
   const [pending, start] = useTransition();
   const [msg, setMsg] = useState<{ ok: boolean; text: string } | null>(null);
@@ -75,11 +77,20 @@ export function DocEditor({
     });
   }
 
-  function run(fn: (p: string) => Promise<SaveResult>) {
+  /**
+   * ยิงคำสั่งไปที่เซิร์ฟเวอร์แล้วรายงานผล
+   *
+   * ตอนออกเอกสาร ต้องโหลดหน้าใหม่ด้วย ไม่ใช่แค่ขึ้นข้อความว่าสำเร็จ
+   * เพราะพอออกเลขแล้วเอกสารจะถูกล็อก หน้าจอต้องเปลี่ยนจากโหมดแก้ไข
+   * ไปเป็นใบจริงที่มีเลขที่กำกับ ถ้าไม่โหลดใหม่ คนใช้จะยังเห็นฟอร์มเดิม
+   * แล้วเข้าใจผิดว่ายังแก้ได้อยู่ ทั้งที่แก้ไม่ได้แล้ว
+   */
+  function run(fn: (p: string) => Promise<SaveResult>, reloadAfter = false) {
     start(async () => {
       try {
         const res = await fn(JSON.stringify(doc));
         setMsg({ ok: res.ok, text: res.ok ? (res.message ?? "บันทึกแล้ว") : res.message });
+        if (res.ok && reloadAfter) router.refresh();
       } catch (e: unknown) {
         setMsg({ ok: false, text: e instanceof Error ? e.message : "บันทึกไม่สำเร็จ" });
       }
@@ -348,7 +359,7 @@ export function DocEditor({
             className="btn-solid"
             onClick={() => {
               setAskIssue(false);
-              if (onIssue) run(onIssue);
+              if (onIssue) run(onIssue, true);
             }}
           >
             ออกเอกสาร

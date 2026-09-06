@@ -441,5 +441,5 @@ export async function createJob(fd: FormData): Promise<ActionResult> {
   });
 
   revalidatePath("/jobs");
-  return { ok: true, message: `เปิดใบงาน ${code} แล้ว` };
+  return { ok: true, id: made.id, message: `เปิดใบงาน ${code} แล้ว` };
 }

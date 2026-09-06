@@ -142,7 +142,7 @@ export async function issueReceipt(fd: FormData): Promise<ActionResult> {
     p_prefix: isTax ? "TAX" : "RC",
   });
 
-  const { error } = await sb.from("receipts").insert({
+  const { data: made, error } = await sb.from("receipts").insert({
     code,
     invoice_id: pay.invoice_id,
     payment_id: paymentId,
@@ -166,11 +166,17 @@ export async function issueReceipt(fd: FormData): Promise<ActionResult> {
     party_tax_id: inv?.bill_to_tax_id ?? null,
     party_address: inv?.bill_to_address ?? null,
     locked_at: new Date().toISOString(),
-  });
+  }).select("id").single();
   if (error) return fail(error.message);
 
   revalidatePath("/accounting");
-  return { ok: true, message: `ออก${isTax ? "ใบกำกับภาษี" : "ใบเสร็จ"} ${code} แล้ว` };
+  revalidatePath("/receipts");
+  revalidatePath("/invoices");
+  return {
+    ok: true,
+    id: made.id as string,
+    message: `ออก${isTax ? "ใบกำกับภาษี" : "ใบเสร็จ"} ${code} แล้ว`,
+  };
 }
 
 // ============================================================================
@@ -376,6 +382,11 @@ export async function createInvoiceFromJob(fd: FormData): Promise<ActionResult> 
   });
 
   revalidatePath("/accounting");
+  revalidatePath("/invoices");
   revalidatePath(`/jobs/${jobId}`);
-  return { ok: true, message: `ออกใบวางบิล ${code} ยอด ${t.netPayable.toLocaleString("th-TH")} บาท` };
+  return {
+    ok: true,
+    id: data.id as string,
+    message: `ออกใบวางบิล ${code} ยอด ${t.netPayable.toLocaleString("th-TH")} บาท`,
+  };
 }

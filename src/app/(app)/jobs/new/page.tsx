@@ -1,6 +1,6 @@
 import { supabaseServer } from "@/lib/supabase/server";
 import { PageHead, Note, LinkBtn } from "@/components/ui";
-import { ActionForm } from "@/components/action-form";
+import { DocActionForm } from "@/components/doc-action-form";
 import { createJob } from "@/actions/jobs";
 import { BUS } from "@/lib/workflow";
 
@@ -21,7 +21,12 @@ export default async function NewJobPage() {
 
       <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_minmax(0,320px)]">
         <div className="card p-5">
-          <ActionForm action={createJob} submitLabel="เปิดใบงาน">
+          <DocActionForm
+            action={createJob}
+            submitLabel="เปิดใบงานแล้วเปิดดู"
+            submitting="กำลังเปิดใบงาน…"
+            basePath="/jobs"
+          >
             <label className="mb-4 block">
               <span className="label">ชื่องาน</span>
               <input name="title" className="field" required
@@ -78,7 +83,7 @@ export default async function NewJobPage() {
                 <input name="brief_duration" className="field" />
               </label>
             </div>
-          </ActionForm>
+          </DocActionForm>
         </div>
 
         <div className="space-y-4">

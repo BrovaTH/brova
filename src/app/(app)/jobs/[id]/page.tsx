@@ -4,6 +4,7 @@ import { supabaseServer, currentProfile } from "@/lib/supabase/server";
 import { PageHead, Section, Table, Td, Tag, KV, Note, Stat, statusTone, LinkBtn, Empty } from "@/components/ui";
 import { ModalButton } from "@/components/modal";
 import { ActionForm } from "@/components/action-form";
+import { DocActionForm } from "@/components/doc-action-form";
 import { StepBar } from "@/components/step-art";
 import {
   moveStatus, saveBrief, saveConfirmation, addMockup, approveMockup,
@@ -655,7 +656,11 @@ export default async function JobPage({ params }: { params: { id: string } }) {
               <div className="p-4">
                 <ModalButton variant="ghost" label="ออกใบวางบิล" title="ออกใบวางบิลจากงานนี้"
                              subtitle={`${job.code} · ${job.customer_name ?? ""}`}>
-                  <ActionForm action={createInvoiceFromJob} submitLabel="ออกใบวางบิล">
+                  <DocActionForm
+                    action={createInvoiceFromJob}
+                    submitLabel="ออกใบวางบิลแล้วเปิดดู"
+                    basePath="/docs/invoice"
+                  >
                     <input type="hidden" name="job_id" value={job.id} />
                     <label className="mb-3 block">
                       <span className="label">ประเภท</span>
@@ -677,7 +682,7 @@ export default async function JobPage({ params }: { params: { id: string } }) {
                     <p className="mt-2 text-[11px] leading-relaxed text-ink/45">
                       ถ้าลูกค้าเป็นนิติบุคคล ระบบจะหักภาษี ณ ที่จ่าย 3% จากยอดก่อนภาษีให้อัตโนมัติ
                     </p>
-                  </ActionForm>
+                  </DocActionForm>
                 </ModalButton>
               </div>
             </div>

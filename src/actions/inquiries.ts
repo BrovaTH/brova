@@ -4,7 +4,7 @@ import { revalidatePath } from "next/cache";
 import { supabaseServer } from "@/lib/supabase/server";
 import { insertWithCode } from "@/lib/doc-code";
 
-export type ActionResult = { ok: true; message?: string } | { ok: false; message: string };
+import type { ActionResult } from "@/components/action-form";
 
 // ============================================================================
 // บรีฟ หรือคำขอราคา
@@ -78,9 +78,7 @@ export async function setInquiryStatus(fd: FormData): Promise<ActionResult> {
  * ร่างที่ได้ยังไม่กินเลขที่เอกสาร เลขจะออกตอนกดออกเอกสารเท่านั้น
  * และผูก inquiry_id ไว้ด้วย เพื่อให้ไล่ย้อนได้ว่าใบนี้มาจากบรีฟไหน
  */
-export async function quoteFromInquiry(
-  fd: FormData,
-): Promise<{ ok: boolean; message: string; id?: string }> {
+export async function quoteFromInquiry(fd: FormData): Promise<ActionResult> {
   const sb = supabaseServer();
   const id = String(fd.get("id") ?? "");
 
@@ -130,5 +128,5 @@ export async function quoteFromInquiry(
 
   revalidatePath("/briefs");
   revalidatePath("/docs");
-  return { ok: true, message: "สร้างร่างใบเสนอราคาแล้ว", id: data.id };
+  return { ok: true, id: data.id as string, message: "สร้างร่างใบเสนอราคาแล้ว" };
 }

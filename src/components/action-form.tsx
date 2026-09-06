@@ -3,7 +3,16 @@
 import { useRef, useState, useTransition, type ReactNode } from "react";
 import { Modal } from "./modal";
 
-export type ActionResult = { ok: true; message?: string } | { ok: false; message: string };
+/**
+ * ผลลัพธ์ที่ Server Action ทุกตัวคืนกลับมา
+ *
+ * `id` ใส่มาเฉพาะรายการที่สร้างของขึ้นมาใหม่และมีหน้าให้เปิดดูได้
+ * เช่นออกใบเสนอราคา ออกใบวางบิล ออกใบเสร็จ หรือเปิดใบงาน
+ * ฝั่งหน้าจอเอา id นี้ไปพาผู้ใช้ไปดูของจริงที่เพิ่งออกทันที
+ */
+export type ActionResult =
+  | { ok: true; message?: string; id?: string }
+  | { ok: false; message: string };
 
 /**
  * ฟอร์มที่ยิงไปหา Server Action

@@ -2,6 +2,7 @@ import { supabaseServer } from "@/lib/supabase/server";
 import { PageHead, Section, Table, Td, Tag, Stat, Note, Empty } from "@/components/ui";
 import { ModalButton } from "@/components/modal";
 import { ActionForm } from "@/components/action-form";
+import { DocActionForm } from "@/components/doc-action-form";
 import { setInquiryStatus, quoteFromInquiry } from "@/actions/inquiries";
 import { NewBriefForm } from "./new-brief";
 import { money, num, thDate, ago } from "@/lib/format";
@@ -161,12 +162,17 @@ function BriefRow({
               subtitle={brief || String(b.code ?? "")}
             >
               <p className="mb-4 leading-relaxed">
-                ระบบจะสร้างร่างใบเสนอราคาพร้อมข้อมูลลูกค้าและโจทย์ที่จดไว้ให้เลย
-                ร่างยังไม่กินเลขที่เอกสาร ไปเติมรายการและราคาต่อได้ที่หน้าร่างเอกสาร
+                ระบบจะสร้างร่างใบเสนอราคาพร้อมข้อมูลลูกค้าและโจทย์ที่จดไว้ให้ แล้วพาไปที่ตัวเอกสารเลย
+                จะได้เติมรายการและราคาต่อบนกระดาษ A4 จริงได้ทันที ร่างยังไม่กินเลขที่เอกสาร
               </p>
-              <ActionForm action={quoteFromInquiry} submitLabel="สร้างร่างใบเสนอราคา">
+              <DocActionForm
+                action={quoteFromInquiry}
+                submitLabel="สร้างร่างแล้วเปิดเอกสาร"
+                submitting="กำลังสร้างร่าง…"
+                basePath="/docs/quotation"
+              >
                 <input type="hidden" name="id" value={id} />
-              </ActionForm>
+              </DocActionForm>
             </ModalButton>
           )}
           {moves.length > 0 && (

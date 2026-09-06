@@ -2,7 +2,7 @@ import Link from "next/link";
 import { supabaseServer } from "@/lib/supabase/server";
 import { PageHead, Section, Stat, Table, Td, Tag, KV, Note, LinkBtn } from "@/components/ui";
 import { ModalButton } from "@/components/modal";
-import { ActionForm } from "@/components/action-form";
+import { DocActionForm } from "@/components/doc-action-form";
 import { issueReceipt } from "@/actions/accounting";
 import { money, num, thDate, thDateTime } from "@/lib/format";
 
@@ -207,13 +207,17 @@ export default async function AccountingPage() {
                     <p className="mb-3 leading-relaxed text-ink/70">
                       ใบเสร็จออกได้ครั้งเดียวต่อการรับเงินหนึ่งครั้ง และล็อกทันทีที่ออก
                     </p>
-                    <ActionForm action={issueReceipt} submitLabel="ออกใบเสร็จ">
+                    <DocActionForm
+                      action={issueReceipt}
+                      submitLabel="ออกใบเสร็จแล้วเปิดดู"
+                      basePath="/docs/receipt"
+                    >
                       <input type="hidden" name="payment_id" value={String(p.id)} />
                       <label className="flex items-center gap-2 text-[13px]">
                         <input type="checkbox" name="is_tax_invoice" className="h-3.5 w-3.5 accent-ink" />
                         ออกเป็นใบกำกับภาษี ใช้เลขชุด TAX แยกต่างหาก
                       </label>
-                    </ActionForm>
+                    </DocActionForm>
                   </ModalButton>
                 )}
               </Td>
