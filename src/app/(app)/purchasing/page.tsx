@@ -28,8 +28,8 @@ export default async function PurchasingPage() {
   return (
     <>
       <PageHead
-        eyebrow="สั่งซื้อ"
-        title="ใบสั่งซื้อและการรับของ"
+        eyebrow="สั่งซื้อและการรับของ"
+        title="PURCHASING"
         lead={`สั่งได้เองไม่เกิน ${money(rules.po_budget_cap, 0)} บาทต่อใบ · เกินกว่านั้นต้องให้เจ้าของอนุมัติก่อน`}
         right={
           <ModalButton variant="solid" label="เปิดใบสั่งซื้อ" title="เปิดใบสั่งซื้อใหม่"

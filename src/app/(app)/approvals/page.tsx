@@ -33,8 +33,8 @@ export default async function ApprovalsPage() {
   return (
     <>
       <PageHead
-        eyebrow="ขออนุมัติจากผู้บริหาร"
-        title="เรื่องที่ทำเองไม่ได้"
+        eyebrow="ขออนุมัติ · เรื่องที่ทำเองไม่ได้"
+        title="APPROVALS"
         lead={
           owner
             ? "คุณเป็นผู้อนุมัติคนเดียวของระบบ เรื่องด้านล่างรอคุณตัดสิน จนกว่าจะกด ทีมทำรายการนั้นไม่ได้"

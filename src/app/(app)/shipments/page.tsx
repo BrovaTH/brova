@@ -35,8 +35,8 @@ export default async function ShipmentsPage() {
   return (
     <>
       <PageHead
-        eyebrow="จัดส่ง"
-        title="รอบจัดส่งทั้งหมด"
+        eyebrow="จัดส่ง · รอบจัดส่งทั้งหมด"
+        title="SHIPMENTS"
         lead="ตรงเวลาคือส่งภายในวันกำหนดหรือก่อนหน้า นับเป็นวัน ไม่นับเป็นชั่วโมง"
       />
 

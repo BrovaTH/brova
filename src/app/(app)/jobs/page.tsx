@@ -64,8 +64,8 @@ export default async function JobsPage({
   return (
     <>
       <PageHead
-        eyebrow="ใบงาน"
-        title="งานทั้งหมด"
+        eyebrow="งานทั้งหมด"
+        title="JOBS"
         lead="กรองด้วยปุ่มด้านล่าง หรือค้นด้วยเลขที่งาน ชื่องาน หรือชื่อลูกค้า"
         right={<LinkBtn href="/jobs/new" solid>เปิดใบงานใหม่</LinkBtn>}
       />

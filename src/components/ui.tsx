@@ -3,10 +3,21 @@ import type { ReactNode } from "react";
 import { money, num } from "@/lib/format";
 
 // ---------------------------------------------------------------- หัวหน้าจอ
+/**
+ * หัวของทุกหน้าในระบบ
+ *
+ * วางสามชั้น  ชื่อหน้าภาษาไทยตัวเล็กด้านบน  ชื่อหน้าตัวใหญ่  แล้วคำอธิบายหนึ่งบรรทัด
+ *
+ * ชื่อตัวใหญ่ตั้งใจให้เป็นอังกฤษพิมพ์ใหญ่ เพราะสั้นและรูปทรงต่างกันชัด
+ * มองแวบเดียวก็รู้ว่าอยู่หน้าไหน ส่วนความหมายจริงอ่านได้จากบรรทัดไทยที่อยู่เหนือมัน
+ * คนใช้จึงไม่ต้องอ่านภาษาอังกฤษออกก็ใช้งานได้
+ */
 export function PageHead({
   eyebrow, title, lead, right,
 }: {
+  /** ชื่อหน้าภาษาไทย วางไว้เหนือชื่อตัวใหญ่ */
   eyebrow?: string;
+  /** ชื่อหน้าตัวใหญ่ ปกติเป็นอังกฤษพิมพ์ใหญ่ */
   title: string;
   lead?: string;
   right?: ReactNode;
@@ -14,11 +25,11 @@ export function PageHead({
   return (
     <header className="mb-8 flex flex-wrap items-end justify-between gap-4 border-b border-line pb-5">
       <div className="min-w-0">
-        {eyebrow && (
-          <p className="mb-1 text-[11px] uppercase tracking-wide2 text-ink/40">{eyebrow}</p>
-        )}
-        <h1 className="text-[26px] font-medium leading-tight tracking-display">{title}</h1>
-        {lead && <p className="mt-1.5 max-w-2xl text-[13px] leading-relaxed text-ink/55">{lead}</p>}
+        {eyebrow && <p className="mb-1 text-[11px] tracking-wide2 text-ink/40">{eyebrow}</p>}
+        <h1 className="text-[28px] font-medium uppercase leading-none tracking-[0.01em]">
+          {title}
+        </h1>
+        {lead && <p className="mt-2.5 max-w-2xl text-[13px] leading-relaxed text-ink/55">{lead}</p>}
       </div>
       {right && <div className="flex shrink-0 flex-wrap items-center gap-2">{right}</div>}
     </header>
@@ -210,16 +221,18 @@ export function Empty({ title, hint, action }: {
 
 // ---------------------------------------------------------------- ส่วนย่อยในหน้า
 export function Section({
-  title, hint, right, children, className = "",
+  title, hint, right, children, className = "", id,
 }: {
   title: string;
   hint?: string;
   right?: ReactNode;
   children: ReactNode;
   className?: string;
+  /** ใส่เมื่อมีลิงก์กระโดดมาที่ส่วนนี้โดยตรง เช่น /docs#invoices */
+  id?: string;
 }) {
   return (
-    <section className={`mb-9 ${className}`}>
+    <section id={id} className={`mb-9 scroll-mt-6 ${className}`}>
       <div className="mb-3 flex flex-wrap items-end justify-between gap-3">
         <div>
           <h2 className="text-[15px] font-medium tracking-display">{title}</h2>

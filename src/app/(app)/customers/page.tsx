@@ -36,8 +36,8 @@ export default async function CustomersPage() {
   return (
     <>
       <PageHead
-        eyebrow="ลูกค้า"
-        title="รายชื่อและยอดค้าง"
+        eyebrow="ลูกค้า · รายชื่อและยอดค้าง"
+        title="CUSTOMERS"
         lead="ลูกค้านิติบุคคลจะถูกหักภาษี ณ ที่จ่าย 3% จากยอดก่อนภาษีโดยอัตโนมัติเวลาออกใบวางบิล"
       />
 

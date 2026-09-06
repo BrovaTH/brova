@@ -190,21 +190,39 @@ export async function issueDoc(
     return fail(e instanceof Error ? e.message : "บันทึกไม่สำเร็จ");
   }
 
-  const { data: code, error: cErr } = await sb.rpc("next_code", {
-    p_prefix: PREFIX[docType],
-  });
-  if (cErr) return fail(cErr.message);
+  // ขอเลขที่เอกสารแล้วล็อกใบนี้
+  //
+  // วนขอใหม่ได้ถ้าเลขที่ได้ไปชนกับใบที่มีอยู่แล้ว ซึ่งเกิดได้เมื่อในฐานข้อมูล
+  // มีเอกสารที่ใส่เลขเข้ามาเองโดยไม่ผ่านตัวนับ เช่นข้อมูลตัวอย่างตอนติดตั้ง
+  // ตัวนับเดินหน้าอย่างเดียว เลขที่ชนไปแล้วจึงไม่ถูกหยิบมาใช้ซ้ำ
+  let code: string | null = null;
+  let lastErr = "ออกเลขที่เอกสารไม่สำเร็จ";
 
-  const patch: Record<string, unknown> = {
-    code,
-    locked_at: new Date().toISOString(),
-    locked_by: me?.full_name ?? null,
-  };
-  if (docType === "quotation") patch.status = "Sent";
-  if (docType === "invoice") patch.status = "Issued";
+  for (let i = 0; i < 25 && code === null; i++) {
+    const { data: got, error: cErr } = await sb.rpc("next_code", { p_prefix: PREFIX[docType] });
+    if (cErr) return fail(cErr.message);
 
-  const { error } = await sb.from(TABLE[docType]).update(patch).eq("id", id);
-  if (error) return fail(error.message);
+    const patch: Record<string, unknown> = {
+      code: got,
+      locked_at: new Date().toISOString(),
+      locked_by: me?.full_name ?? null,
+    };
+    if (docType === "quotation") patch.status = "Sent";
+    if (docType === "invoice") patch.status = "Issued";
+
+    const { error } = await sb.from(TABLE[docType]).update(patch).eq("id", id);
+    if (!error) {
+      code = String(got);
+      break;
+    }
+
+    const msg = (error.message ?? "").toLowerCase();
+    const dup = msg.includes("duplicate key") || msg.includes("already exists");
+    if (!dup) return fail(error.message);
+    lastErr = `เลขที่ ${String(got)} ถูกใช้ไปแล้ว ระบบข้ามไปเลขถัดไปให้อัตโนมัติ`;
+  }
+
+  if (code === null) return fail(lastErr);
 
   revalidatePath(`/${docType}s/${id}`);
   revalidatePath("/docs");

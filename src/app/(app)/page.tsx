@@ -53,7 +53,7 @@ export default async function Dashboard() {
     <>
       <PageHead
         eyebrow={`สวัสดี ${me?.full_name ?? ""}`}
-        title="ภาพรวมวันนี้"
+        title="DASHBOARD"
         lead="หน้านี้ตอบคำถามเดียว งานไหนกำลังจะมีปัญหา แล้วต้องไปแตะอะไรก่อน"
         right={
           <>

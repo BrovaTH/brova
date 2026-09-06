@@ -1,6 +1,7 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
+import { insertWithCode } from "@/lib/doc-code";
 import { supabaseServer, currentProfile } from "@/lib/supabase/server";
 import { canMove, gateFor, statusTh } from "@/lib/workflow";
 import { consumeApproval } from "./approvals";
@@ -417,31 +418,23 @@ export async function createJob(fd: FormData): Promise<ActionResult> {
   const title = s(fd, "title");
   if (!title) return fail("ใส่ชื่องานด้วย");
 
-  const { data: code, error: cErr } = await sb.rpc("next_code", { p_prefix: "JOB" });
-  if (cErr) return fail(cErr.message);
-
-  const { data, error } = await sb
-    .from("jobs")
-    .insert({
-      code,
-      title,
-      customer_id: s(fd, "customer_id") || null,
-      bu_code: s(fd, "bu_code") || "BU1",
-      status: "10",
-      qty_total: Number(s(fd, "qty_total")) || 0,
-      total_amount: Number(s(fd, "total_amount")) || 0,
-      due_date: s(fd, "due_date") || null,
-      brief_who: s(fd, "brief_who") || null,
-      brief_where: s(fd, "brief_where") || null,
-      brief_duration: s(fd, "brief_duration") || null,
-    })
-    .select("id")
-    .single();
-
-  if (error) return fail(error.message);
+  const made = await insertWithCode(sb as never, "jobs", "JOB", {
+    title,
+    customer_id: s(fd, "customer_id") || null,
+    bu_code: s(fd, "bu_code") || "BU1",
+    status: "10",
+    qty_total: Number(s(fd, "qty_total")) || 0,
+    total_amount: Number(s(fd, "total_amount")) || 0,
+    due_date: s(fd, "due_date") || null,
+    brief_who: s(fd, "brief_who") || null,
+    brief_where: s(fd, "brief_where") || null,
+    brief_duration: s(fd, "brief_duration") || null,
+  });
+  if (!made.ok) return fail(made.message);
+  const code = made.code;
 
   await sb.from("status_logs").insert({
-    job_id: data.id,
+    job_id: made.id,
     to_status: "10",
     note: "เปิดใบงาน",
     by_user: me?.full_name ?? null,

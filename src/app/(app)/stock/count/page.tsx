@@ -20,8 +20,8 @@ export default async function CountListPage() {
   return (
     <>
       <PageHead
-        eyebrow="คลังสินค้า"
-        title="รอบนับสต็อก"
+        eyebrow="คลังสินค้า · รอบนับสต็อก"
+        title="STOCK COUNT"
         lead="นับรวมทั้งคลัง แยกไซส์และสี · ยอดในระบบจะขยับก็ต่อเมื่อปิดรอบ และทุกการปรับมีร่องรอย"
         right={
           <>

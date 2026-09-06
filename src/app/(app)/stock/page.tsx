@@ -50,8 +50,8 @@ export default async function StockPage({
   return (
     <>
       <PageHead
-        eyebrow="คลังสินค้า"
-        title="ของที่มีอยู่จริง"
+        eyebrow="สต็อกและ SKU"
+        title="STOCK & SKU"
         lead="นับรวมทั้งคลัง แยกไซส์และสี · ยอดว่างคือของที่ยังไม่ถูกจองให้งานไหน"
         right={
           <>

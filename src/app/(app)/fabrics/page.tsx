@@ -37,8 +37,8 @@ export default async function FabricsPage() {
   return (
     <>
       <PageHead
-        eyebrow="คลังผ้า"
-        title="ผ้าที่รับทำและราคาตามไซส์"
+        eyebrow="คลังผ้า · ราคาตามไซส์"
+        title="FABRICS"
         lead="ราคาต่อตัวตามตารางจริง กดที่ชื่อผ้าเพื่อดูข้อดี ข้อเสีย และงานที่เหมาะ"
       />
 

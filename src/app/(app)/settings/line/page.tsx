@@ -121,7 +121,7 @@ export default async function LineSettingsPage() {
     <>
       <PageHead
         eyebrow="ตั้งค่า · แจ้งเตือนเข้าไลน์"
-        title="แจ้งเตือนเข้าไลน์"
+        title="LINE ALERTS"
         lead="ส่งการ์ดแจ้งเตือนเข้ากลุ่มไลน์ของทีม ผ่านบัญชีทางการและ Messaging API"
         right={<LinkBtn href="/settings">กลับหน้าตั้งค่า</LinkBtn>}
       />

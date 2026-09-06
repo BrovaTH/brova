@@ -13,8 +13,8 @@ export default async function NewJobPage() {
   return (
     <>
       <PageHead
-        eyebrow="เปิดใบงาน"
-        title="งานใหม่"
+        eyebrow="เปิดงานใหม่"
+        title="NEW JOB"
         lead="เปิดงานได้เลยแม้ยังไม่รู้ทุกอย่าง แต่ถ้าเก็บโจทย์สามข้อได้ตั้งแต่ตอนนี้ งานจะเดินต่อได้เร็วกว่า"
         right={<LinkBtn href="/jobs">ยกเลิก</LinkBtn>}
       />

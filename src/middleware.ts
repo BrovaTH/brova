@@ -1,8 +1,17 @@
 import { NextResponse, type NextRequest } from "next/server";
 import { createServerClient, type CookieOptions } from "@supabase/ssr";
 
-/** หน้าที่เปิดได้โดยไม่ต้องล็อกอิน */
-const PUBLIC = ["/login", "/track", "/auth","/api",  "/_next", "/favicon", "/brova"];
+/**
+ * หน้าที่เปิดได้โดยไม่ต้องล็อกอิน
+ *
+ * /api ต้องอยู่ในรายการนี้ด้วย เพราะเส้นทางฝั่ง API ตรวจสิทธิ์เองอยู่แล้ว
+ *   /api/users        ตอนระบบยังไม่มีใครเลยต้องเรียกได้เพื่อตั้งบัญชีเจ้าของคนแรก
+ *                     หลังจากนั้นตรวจว่าเป็นเจ้าของก่อนทุกครั้ง
+ *   /api/line/webhook ไลน์เป็นคนยิงเข้ามา ตรวจด้วยลายเซ็นของไลน์
+ *   /api/cron/daily   Vercel เป็นคนเรียก ตรวจด้วยรหัสลับใน CRON_SECRET
+ * ถ้าไม่ใส่ไว้ ตัวกันหน้าจะเด้งไปหน้าล็อกอิน แล้วผู้เรียกจะได้ HTML แทน JSON
+ */
+const PUBLIC = ["/login", "/track", "/auth", "/api", "/_next", "/favicon", "/brova"];
 
 function isPublic(path: string) {
   return PUBLIC.some((p) => path === p || path.startsWith(p + "/") || path.startsWith(p));

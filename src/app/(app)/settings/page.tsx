@@ -19,12 +19,13 @@ export default async function SettingsPage() {
   return (
     <>
       <PageHead
-        eyebrow="ตั้งค่า"
-        title="ทีมและข้อมูลบริษัท"
+        eyebrow="ตั้งค่าระบบ · ทีมและหน่วยธุรกิจ"
+        title="SETTINGS"
         lead="ข้อมูลบริษัทตรงนี้จะไปขึ้นบนหัวเอกสารทุกใบที่ออกจากระบบ"
         right={
           owner ? (
             <>
+              <LinkBtn href="/settings/company">ตั้งค่าเอกสาร</LinkBtn>
               <LinkBtn href="/settings/users">จัดการผู้ใช้</LinkBtn>
               <LinkBtn href="/settings/line" solid>แจ้งเตือนเข้าไลน์</LinkBtn>
             </>
@@ -32,7 +33,10 @@ export default async function SettingsPage() {
         }
       />
 
-      <Section title="ข้อมูลบริษัทที่ขึ้นบนเอกสาร">
+      <Section
+        title="ข้อมูลบริษัทที่ขึ้นบนเอกสาร"
+        right={<LinkBtn href="/settings/company">แก้ข้อมูลบริษัท</LinkBtn>}
+      >
         <div className="card divide-y divide-line-soft px-4">
           <KV k="ชื่อบริษัท" v={company?.name ?? "ยังไม่ได้ตั้ง"} />
           <KV k="เลขประจำตัวผู้เสียภาษี" v={company?.tax_id ?? "—"} mono />
@@ -40,11 +44,11 @@ export default async function SettingsPage() {
           <KV k="โทรศัพท์" v={company?.phone ?? "—"} mono />
           <KV k="อีเมล" v={company?.email ?? "—"} />
           <KV k="ธนาคาร" v={company?.bank_name ?? "—"} />
-          <KV k="เลขบัญชี" v={company?.bank_account ?? "—"} mono />
+          <KV k="เลขบัญชี" v={company?.bank_account_no ?? "—"} mono />
           <KV k="ชื่อบัญชี" v={company?.bank_account_name ?? "—"} />
         </div>
         <p className="mt-2 text-[11px] text-ink/40">
-          แก้ข้อมูลชุดนี้ได้ที่ตาราง company_settings ใน Supabase
+          แก้ข้อมูลชุดนี้ได้ที่หน้า ตั้งค่าเอกสาร
           เอกสารที่ออกไปแล้วจะไม่เปลี่ยนตาม เพราะเก็บเป็นภาพนิ่งไว้ตอนออกใบ
         </p>
       </Section>

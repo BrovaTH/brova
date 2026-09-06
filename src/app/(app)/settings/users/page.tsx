@@ -35,8 +35,8 @@ export default async function UsersPage() {
   return (
     <>
       <PageHead
-        eyebrow="ตั้งค่า · ผู้ใช้"
-        title="จัดการผู้ใช้"
+        eyebrow="ตั้งค่า · จัดการผู้ใช้"
+        title="USERS"
         lead="สร้างบัญชีให้คนในทีม กำหนดบทบาท และตั้งรหัสผ่านใหม่ให้คนที่ลืม"
         right={
           <>
